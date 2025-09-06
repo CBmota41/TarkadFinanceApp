@@ -1,0 +1,12 @@
+kivy==2.1.0
+kivymd==1.1.1
+matplotlib==3.5.3
+pandas==1.5.3
+reportlab==4.0.4
+pillow==9.5.0
+pyjnius
+cycler
+kiwisolver
+pyparsing
+python-dateutil
+setuptools
