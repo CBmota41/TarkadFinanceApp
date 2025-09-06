@@ -15,7 +15,8 @@ version = 1.0
 orientation = portrait
 
 # Dependências do Python
-requirements = python3,kivy==2.1.0,kivymd==1.1.1,matplotlib==3.5.3,/home/mota/Desktop/pandas153,/home/mota/Desktop/reportlab-4.4.4.tar.gz,pillow==9.5.0,pyjnius,android
+requirements = python3,kivy==2.1.0,kivymd==1.1.1,matplotlib==3.5.3,/home/mota/Desktop/pandas153,/home/mota/Desktop/reportlab-4.4.4.tar.gz,pillow==9.5.0,/home/mota/Desktop/pyjnius/pyjnius-1.4.2.tar.gz,android
+
 
 
 # API Android
