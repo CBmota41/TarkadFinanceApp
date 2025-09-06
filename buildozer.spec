@@ -50,7 +50,7 @@ source.include_patterns = assets/*,images/*
 
 # Caminhos fixos do NDK e SDK (ajustados para seu PC)
 android.ndk_path = /home/mota/Desktop/android/android-ndk-r25b
-android.sdk_path = /home/mota/Desktop/Androidsdk
+android.sdk_path = /home/mota/Desktop/Androidsdk/cmdline-tools/cmdline-tools
 
 
 [buildozer]
