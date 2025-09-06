@@ -7,29 +7,45 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-apk:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout do código
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Instalar dependências
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3 python3-pip python3-venv openjdk-17-jdk unzip wget
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.12
 
-    - name: Instalar Buildozer
+    - name: Install system dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        pip install cython
-        pip install buildozer
+        sudo apt update
+        sudo apt install -y python3-pip python3-setuptools python3-wheel git zip unzip openjdk-8-jdk wget
+
+    - name: Install Buildozer & Cython
+      run: |
+        pip install --upgrade pip
+        pip install buildozer==1.4.2 cython==0.29.36
+
+    - name: Download Android SDK & NDK
+      run: |
+        mkdir -p $HOME/android-sdk
+        mkdir -p $HOME/android-ndk
+        wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+        unzip cmdline-tools.zip -d $HOME/android-sdk
+        rm cmdline-tools.zip
+        wget https://dl.google.com/android/repository/android-ndk-r25b-linux.zip -O ndk.zip
+        unzip ndk.zip -d $HOME/android-ndk
+        rm ndk.zip
+        yes | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "platforms;android-30"
 
     - name: Build APK
       run: |
         buildozer android debug
 
-    - name: Upload do APK
+    - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
         name: TarkadFinance-debug.apk
