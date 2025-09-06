@@ -22,7 +22,7 @@ android.api = 30
 android.minapi = 21
 android.ndk_api = 21
 android.archs = arm64-v8a,armeabi-v7a
-android.bootstrap = sdl2
+p4a.bootstrap = sdl2
 
 # Copiar bibliotecas externas
 android.copy_libs = True
