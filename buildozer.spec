@@ -1,4 +1,4 @@
-# (c) 2025 Buildozer spec template para TarkadFinance
+# (c) 2025 Buildozer spec para TarkadFinance
 [app]
 
 # Nome do app e domínio
@@ -20,20 +20,24 @@ requirements = python3,kivy==2.1.0,kivymd==1.1.1,matplotlib==3.5.3,pandas==1.5.3
 # API Android
 android.api = 30
 android.minapi = 21
+android.ndk_api = 21
 android.archs = arm64-v8a,armeabi-v7a
 android.bootstrap = sdl2
 
 # Copiar bibliotecas externas
 android.copy_libs = True
 
-# Icone e splash
+# Ícone e splash
 icon.filename = %(source.dir)s/icon.png
 presplash.filename = %(source.dir)s/presplash.png
 
-# Permissões
-android.permissions = INTERNET,ACCESS_FINE_LOCATION,CAMERA
+# Permissões (mais comuns e seguras)
+android.permissions = INTERNET,ACCESS_NETWORK_STATE,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE,ACCESS_FINE_LOCATION,CAMERA
 
-# Log detalhado
+# Ativar multitouch
+fullscreen = 0
+
+# Logs detalhados
 log_level = 2
 android.logcat_filters = *:S python:D
 android.logcat = True
@@ -43,6 +47,10 @@ android.debug = 1
 
 # Arquivos e pastas extras a incluir
 source.include_patterns = assets/*,images/*
+
+# Caminhos fixos do NDK e SDK (ajustados para seu PC)
+android.ndk_path = /home/mota/Desktop/android/android-ndk-r25b
+android.sdk_path = /home/mota/.buildozer/android/platform/android-sdk
 
 [buildozer]
 
