@@ -1,4 +1,4 @@
-name: Build TarkadFinance APK
+name: Build TarkadFinance APK Full
 
 on:
   push:
@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: ${{ github.workspace }}/android-sdk
+      ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
+      PATH: ${{ github.workspace }}/android-sdk/cmdline-tools/latest/bin:${{ github.workspace }}/android-sdk/platform-tools:${{ github.workspace }}/android-ndk-r25b:$PATH
 
     steps:
     - name: Checkout do código
@@ -17,15 +21,29 @@ jobs:
     - name: Instalar dependências do sistema
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3 python3-pip python3-venv openjdk-17-jdk unzip wget git curl
+        sudo apt-get install -y python3 python3-pip python3-venv openjdk-17-jdk unzip wget curl git build-essential
 
     - name: Instalar Buildozer e Cython
       run: |
         python3 -m pip install --upgrade pip
-        pip install cython
-        pip install buildozer
+        pip install cython buildozer
 
-    - name: Instalar dependências extras Python (opcional)
+    - name: Baixar e configurar Android SDK
+      run: |
+        mkdir -p $ANDROID_HOME/cmdline-tools
+        cd $ANDROID_HOME/cmdline-tools
+        wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+        unzip cmdline-tools.zip -d latest
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-30" "build-tools;30.0.3"
+
+    - name: Baixar Android NDK r25b
+      run: |
+        mkdir -p ${{ github.workspace }}/android-ndk-r25b
+        wget https://dl.google.com/android/repository/android-ndk-r25b-linux.zip
+        unzip android-ndk-r25b-linux.zip -d ${{ github.workspace }}/
+    
+    - name: Instalar dependências Python do projeto
       run: |
         pip install -r requirements.txt
 
@@ -33,7 +51,7 @@ jobs:
       run: |
         buildozer android debug --verbose
 
-    - name: Upload do APK
+    - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
         name: TarkadFinance-debug.apk
